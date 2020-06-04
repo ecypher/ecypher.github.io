@@ -71,8 +71,7 @@ contentDir = "content/english"
 
 
 [params.social]  # Set your social account here, if you don't have some accounts just comment them
-    a-envelope = "mailto:your@email.com"
-    e-github = "https://github.com/johndoe"
-    f-youtube = "https://www.youtube.com/channel/12345678"
-    g-linkedin = "https://www.linkedin.com/johndoe"
+    a-envelope = "mailto:data-antics@gmail.com"
+    e-github = "https://github.com/data-antics"
+    g-linkedin = "https://www.linkedin.com/in/evan-cypher-884071135/"
     
