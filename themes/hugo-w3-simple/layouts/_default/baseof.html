@@ -21,9 +21,9 @@
     
 <div class="w3-content">
     
-      <div>
+      <div style="background-color:white">
         {{ if and .IsHome .Site.Params.welcomemessage }}
-          <div class="w3-card-4 w3-container" >
+          <div class="w3-card-4 w3-container">
             {{ .Content | markdownify }}
           </div>
         {{ end }}
