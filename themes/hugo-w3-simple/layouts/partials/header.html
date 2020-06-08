@@ -36,7 +36,7 @@
 <br>
   <div class="w3-content">
   
-  <div class="w3-container w3-center w3-padding-32 w3-hide-small"> 
+  <div class="w3-container w3-center w3-padding-32"> 
       <h1 class="w3-xxxlarge w3-text-black w3-wide w3-allerta {{ if .Site.Params.glowlogo }} glow {{ end }} " style="text-shadow:1px 1px 0 #444" ><u>
       {{ with .Site.Params.logotext }}
          {{ . }}
@@ -50,7 +50,7 @@
     <div class="w3-bar w3-light-grey w3-border">
     <a href="{{ "/" | relLangURL  }}" class="w3-bar-item w3-button w3-large w3-green"><i class="fa fa-home"></i></a>
     {{ range .Site.Menus.main }}
-      <a href="{{ .URL |  relURL }}" class="w3-bar-item w3-button w3-hide-small">{{ .Name }}</a>
+      <a href="{{ .URL |  relURL }}" class="w3-bar-item w3-button">{{ .Name }}</a>
     {{ end }}
    
     
