@@ -66,11 +66,11 @@ contentDir = "content/english"
     # adsenseid="ca-pub-123456789"
     allowads = true
     logotext = "HUGO W3 SIMPLE" # logo text
-    footer = "&copy; Evan Cypher 2020 | [Github](https://github.com/johndoe) | [RSS](/index.xml)"
+    footer = "&copy; Evan Cypher 2020 | [Github](https://github.com/data-antics) | [RSS](/index.xml)"
 
 
 [params.social]  # Set your social account here, if you don't have some accounts just comment them
-    a-envelope = "mailto:data-antics@gmail.com"
+    a-envelope = "mailto:contact.data.antics@gmail.com"
     e-github = "https://github.com/data-antics"
     g-linkedin = "https://www.linkedin.com/in/evan-cypher-884071135/"
     
