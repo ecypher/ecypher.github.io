@@ -262,16 +262,16 @@ text-decoration: underline;
     text-decoration: none;
     border: 1px solid #ddd;
    
-    background-color: #2196F3;
+    background-color: #616161;
 }
 
 .pagination .active a {
-    background-color: #4CAF50;
+    background-color: #c8d1db;
     color: white;
-    border: 1px solid #4CAF50;
+    border: 1px solid #c8d1db;
 }
 
-.pagination a:hover:not(.active) {background-color: #4CAF50;}
+.pagination a:hover:not(.active) {background-color: #c8d1db;}
 
 .pagination li { display: inline; }
 
