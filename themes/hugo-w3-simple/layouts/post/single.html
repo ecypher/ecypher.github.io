@@ -34,7 +34,7 @@
         {{ with .Params.categories -}}
           <div >
             {{ range . }}
-              <a class="w3-btn w3-small w3-round w3-green" href="{{ "categories" | relLangURL }}/{{ . | urlize }}/"> {{ . }} </a>
+              <a class="w3-btn w3-small w3-round w3-dark-grey" href="{{ "categories" | relLangURL }}/{{ . | urlize }}/"> {{ . }} </a>
             {{ end }}
           </div>
         {{- end }}
@@ -76,7 +76,7 @@
         	<hr class = "tag">
         Tags: 
           {{ range . }}
-          <a class="w3-btn w3-small w3-round w3-green" href="{{ "tags" | relLangURL }}/{{ . | urlize }}/">{{ . }}</a>
+          <a class="w3-btn w3-small w3-round w3-dark-grey" href="{{ "tags" | relLangURL }}/{{ . | urlize }}/">{{ . }}</a>
           {{ end }}
           <hr class = "tag">
        
