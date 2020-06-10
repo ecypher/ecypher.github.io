@@ -2,7 +2,7 @@
 title: All posts
 type: allposts
 ---
-<h2>All Posts of Hugo W3 Simple Example Site From Start</h2>
+<center><h2>Catalog of Data Antics</h2></center>
 
 
 
