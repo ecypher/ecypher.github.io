@@ -84,7 +84,7 @@
           {{ end }}
         {{ end }}
    
-      <header class="w3-container wraptext w3-text-indigo">
+      <header class="w3-container wraptext w3-text-indigo w3-center">
         <h4><a href="{{ .Permalink }}">{{ .Title | markdownify }}</a></h4>
         
                
@@ -92,7 +92,7 @@
 
 
     <div class="w3-container wraptext w3-white">
-      <code> {{ .Date.Format "January 2, 2006" }} </code>
+      <div class="w3-center"><code> {{ .Date.Format "January 2, 2006" }} </code></div>
       
       <p>
         {{ with .Description }}
