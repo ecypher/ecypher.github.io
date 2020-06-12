@@ -25,7 +25,8 @@
       <h1>{{ .Title }}</h1>
 
       <div >
-        <p> {{ .Date.Format (.Site.Params.dateFormatToUse | default "January 2, 2006") }} 
+        <p> {{ .Site.Params.authorinfo | safeHTML }}
+        {{ .Date.Format (.Site.Params.dateFormatToUse | default "January 2, 2006") }} 
           {{ if .Site.Params.readingtime }}
              <code> {{ T ("wordCount") .WordCount }}  </code>
              <code> {{ T "readingTime" .ReadingTime }} </code>
