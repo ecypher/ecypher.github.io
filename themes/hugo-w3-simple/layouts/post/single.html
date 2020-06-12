@@ -25,7 +25,7 @@
       <h1>{{ .Title }}</h1>
 
       <div >
-        <p> {{ .Date.Format (.Site.Params.dateFormatToUse | default "2006-01-02") }} 
+        <p> {{ .Date.Format (.Site.Params.dateFormatToUse | default "January 2, 2006") }} 
           {{ if .Site.Params.readingtime }}
              <code> {{ T ("wordCount") .WordCount }}  </code>
              <code> {{ T "readingTime" .ReadingTime }} </code>

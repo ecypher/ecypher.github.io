@@ -22,7 +22,7 @@
   {{range where .Site.RegularPages "Section" "posts"}}
   <tr class="item ">
     <td><a href="{{.Permalink}}">{{.Title}}</a></td>
-    <td>{{ .Date.Format "2006/01/02" }}</td>
+    <td>{{ .Date.Format "January 2, 2006" }}</td>
     <td>{{.WordCount}}</td>
   </tr>
   {{end}}

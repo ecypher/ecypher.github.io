@@ -21,7 +21,7 @@
       {{range where .Site.RegularPages "Section" "posts"}}
       <tr class="item ">
         <td><a href="{{.Permalink}}">{{.Title}}</a></td>
-        <td>{{ .Date.Format "2006/01/02" }}</td>
+        <td>{{ .Date.Format "January 2, 2006" }}</td>
         <td>{{.WordCount}}</td>
       </tr>
       {{end}}
@@ -30,7 +30,7 @@
       {{range  .Pages }}
       <tr class="item ">
         <td><a href="{{.Permalink}}">{{.Title}}</a></td>
-        <td>{{ .Date.Format "2006/01/02" }}</td>
+        <td>{{ .Date.Format "January 2, 2006" }}</td>
         <td>{{.WordCount}}</td>
       </tr>
       {{end}}
@@ -92,7 +92,7 @@
 
 
     <div class="w3-container wraptext w3-white">
-      <code> {{ .Date.Format "2006/01/02" }} </code>
+      <code> {{ .Date.Format "January 2, 2006" }} </code>
       
       <p>
         {{ with .Description }}
@@ -128,7 +128,7 @@
 
   {{ range $paginator.Pages }}
     <li>
-      <span class="date">{{ .Date.Format "2006/01/02" }}</span> &nbsp; 
+      <span class="date">{{ .Date.Format "January 2, 2006" }}</span> &nbsp; 
       <a href="{{ .Permalink }}">{{ .Title | markdownify }}</a>
     </li>
   {{ end }} 
