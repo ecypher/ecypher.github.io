@@ -20,8 +20,8 @@
     </header>
     
 <div class="w3-content">
-    
-      <div style="background-color:white">
+    <br>
+      <div style="background-color:white; border-style: groove groove none groove;">
         {{ if and .IsHome .Site.Params.welcomemessage }}
           <div class="w3-card-4 w3-container">
             {{ .Content | markdownify }}
@@ -41,7 +41,7 @@
     
 
    
-    <footer id="footer" >
+    <footer id="footer" style="background-color:white; border-style: none groove groove groove;">
       {{ partial "footer.html" . }}
     </footer>
     
