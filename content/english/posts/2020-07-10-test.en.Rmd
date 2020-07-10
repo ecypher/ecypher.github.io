@@ -14,7 +14,7 @@ w3codecolor: no
 
 # Testing
 
-This page exists purely for testing purposes
+This page exists purely for testing purposes. I'm typing in pure nonsense right now because I really, really want to increase the total word length for this article.This page exists purely for testing purposes. I'm typing in pure nonsense right now because I really, really want to increase the total word length for this article. This page exists purely for testing purposes. I'm typing in pure nonsense right now because I really, really want to increase the total word length for this article.
 
 ## Linked Micromap Test
 
@@ -23,9 +23,8 @@ This page exists purely for testing purposes
 <center>![](https://raw.githubusercontent.com/ecypher/ecypher.github.io/master/images/Dunkin_Linked_MicromapST.png)</center>
 
 
-## Shiny iframe Test
 
-<iframe height="800" width="100%" frameborder="no" src="https://antoinesoetewey.shinyapps.io/statistics-201/"> </iframe>
+<iframe src="https://antoinesoetewey.shinyapps.io/statistics-201/" width="100%" frameborder="no" scrolling="no" style="width: 100%; height: 1000px;"></iframe>
 
 ## Another Section
 
