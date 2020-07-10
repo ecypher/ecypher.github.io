@@ -9,7 +9,7 @@ categories:
 tags:
   - Dunkin' Donuts
 lastmod: '2020-07-10T13:05:01-04:00'
-type: post
+type: posts
 w3codecolor: no
 ---
 
