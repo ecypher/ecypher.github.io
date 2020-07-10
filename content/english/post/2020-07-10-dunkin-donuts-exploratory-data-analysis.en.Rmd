@@ -1,10 +1,11 @@
 ---
-title: Dunkin' Donuts - Exploratory Data Analysis
-author: 'Evan Cypher'
+title: 'Dunkin Donuts - Exploratory Data Analysis'
+author: Evan Cypher
 date: '2020-07-10'
-slug: dunkin-donuts-exploratory-data-analysis
+slug: dunkin-donuts-eda
 categories:
   - Data Vizualization
+  - Exploratory Data Analyst
 tags:
   - Dunkin' Donuts
 lastmod: '2020-07-10T13:05:01-04:00'
@@ -12,7 +13,7 @@ type: post
 w3codecolor: no
 ---
 
-**Insert Lead paragraph here.**
+# Hello There!
 
 A augue nunc lacus auctor efficitur tempor placerat, dictum volutpat mi vitae viverra porta non sem, himenaeos senectus vivamus potenti cubilia sollicitudin. Curae cursus inceptos tincidunt magna mi nibh ad enim etiam, molestie eu quis primis hendrerit taciti phasellus. Feugiat ultricies dictumst iaculis potenti odio laoreet urna at, ultrices curae leo accumsan proin sem lobortis. 
 
