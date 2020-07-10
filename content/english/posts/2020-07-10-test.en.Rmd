@@ -25,7 +25,7 @@ This page exists purely for testing purposes
 
 ## Shiny iframe Test
 
-<iframe height="1800" width="100%" frameborder="no" src="https://antoinesoetewey.shinyapps.io/statistics-201/"> </iframe>
+<iframe height="800" width="100%" frameborder="no" src="https://antoinesoetewey.shinyapps.io/statistics-201/"> </iframe>
 
 ## Another Section
 
