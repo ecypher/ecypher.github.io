@@ -24,7 +24,13 @@ This page exists purely for testing purposes. I'm typing in pure nonsense right 
 <center>![](https://raw.githubusercontent.com/ecypher/ecypher.github.io/master/images/Dunkin_Linked_MicromapST.png)</center>
 
 
+## R Shiny Marker Map
+
 <iframe src=" https://data-antics.shinyapps.io/DunkinMapApp/" width="100%" frameborder="no" scrolling="no" style="width: 100%; height: 1000px;"></iframe>
+
+## R Shiny Leaflet Choropleth Map
+
+<iframe src = "https://data-antics.shinyapps.io/Dunkin_Choropleth/" width="100%" frameborder="no" scrolling="no" style="width: 100%; height: 1000px;"></iframe>
 
 ## Another Section
 
