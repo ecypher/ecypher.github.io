@@ -18,6 +18,12 @@ This page exists purely for testing purposes. I'm typing in pure nonsense right 
 
 <center>![](https://www.qsrmagazine.com/sites/default/files/styles/story_page/public/news-image/why-dunkin-donuts-still-winning-breakfast-customers.jpg)</center>
 
+## Dendo Test
+
+```{r  out.width = "30%", echo = FALSE}
+knitr::include_graphics("https://raw.githubusercontent.com/ecypher/ecypher.github.io/master/images/Dunkin_Dendo_D3.png") 
+```
+
 
 ## Linked Micromap Test
 
