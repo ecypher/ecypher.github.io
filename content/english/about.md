@@ -1,12 +1,12 @@
 ---
-author: admin
-date: 2018-11-10 00:28:38+00:00
+author: Evan Cypher
+date: '2018-11-10'
 draft: false
-title: About W3 Simple
+title: About Page
 type: page
 url: /about/
 ---
 
-  
-  
-W3 Simple is a Hugo theme written by [Jesse Lau](https://jesselau.com/) . The main motivation for writing this theme was to provide a really minimal theme with W3 CSS included.
+## What is Data Antics?
+
+  This is where the about section will be located... This is where the about section will be located...This is where the about section will be located...This is where the about section will be located...This is where the about section will be located...This is where the about section will be located...This is where the about section will be located...This is where the about section will be located...This is where the about section will be located...
