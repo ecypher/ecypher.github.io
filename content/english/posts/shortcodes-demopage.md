@@ -6,6 +6,7 @@ date: "2018-11-09T07:26:15+13:00"
 draft: false
 tags:
 - hugo
+thumbnail: https://raw.githubusercontent.com/ecypher/ecypher.github.io/master/images/Color_Drop_Dream.png
 title: Hugo W3 Simple Theme Shortcodes Demo
 type: post
 url: /w3-simple-shortcodes-demo/
@@ -239,4 +240,4 @@ Or you can set px to width
 {{< /quote >}}   
 
 ## Test first picture without thumbnail set
-![Thanks to Unsplash](https://images.wikidexcdn.net/mwuploads/wikidex/7/71/latest/20200105064957/Wooper_EpEc.gif)
+

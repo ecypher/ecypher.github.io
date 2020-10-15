@@ -3,7 +3,7 @@ body
 {
   /*font-family: "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, "Lucida Grande", "Luxi Sans", Arial, sans-serif;*/
   font-family: "Segoe UI",Arial,sans-serif;
-  background-image: url('https://raw.githubusercontent.com/data-antics/TEST/master/Color_Drop.png');
+  background-image: url('https://raw.githubusercontent.com/ecypher/ecypher.github.io/master/images/Color_Drop_Space.png');
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: 100% auto;
@@ -94,7 +94,7 @@ text-decoration: underline;
 
 /* social share css */
 
-.w3-tooltip:hover .w3-text{z-index: 1;display:inline-block}
+/*.w3-tooltip:hover .w3-text{z-index: 1;display:inline-block}
 
   @media screen and (min-width: 1025px)
   {
@@ -180,7 +180,7 @@ text-decoration: underline;
   background: #007bb5;
   color: white;
   border-radius: 0px 0px 36px 36px;
-  }
+  } */
 
 /* search function css */
 
@@ -320,9 +320,9 @@ text-decoration: underline;
 .glow {
   
   
-  -webkit-animation: glow 2s ease-in-out infinite alternate;
-  -moz-animation: glow 2s ease-in-out infinite alternate;
-  animation: glow 2s ease-in-out infinite alternate;
+  -webkit-animation: glow 5s ease-in-out infinite alternate;
+  -moz-animation: glow 5s ease-in-out infinite alternate;
+  animation: glow 5s ease-in-out infinite alternate;
 }
 
 @-webkit-keyframes glow {

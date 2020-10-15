@@ -8,7 +8,7 @@ theme = "hugo-w3-simple"
 disqusShortname = ""      # disqus_shortname
 googleAnalytics = ""      # UA-XXXXXXXX-X
 paginate = 12 #gridstyle use 3 column. so should be 3,6,9,12,15....
-hasCJKLanguage = false # has chinese/japanese/korean ? 
+hasCJKLanguage = false # has chinese/japanese/korean ?
 [markup.goldmark.renderer]
 unsafe= true
 [languages.en]
@@ -24,7 +24,7 @@ contentDir = "content/english"
       isso_baseurl = ""  #if you want to use isso as comment system,set your isso js baseurl here. It is like "https://isso.yourwebsite.com/" or "https://yourwebsite.com/isso/"
       isso_langcode = "en"
       cookie_info = "This website uses cookies to ensure you get the best experience on our website. [Learn more](/privacy-policy/)"
-   
+
 [[languages.en.menu.main]]
     name = "About"
     url = "/about/"
@@ -44,20 +44,20 @@ contentDir = "content/english"
     weight = 5
 
 [params]
-    welcomemessage = false #if set true. The home page will display the content of _index.md 
-    authorandlicense = true 
+    welcomemessage = false #if set true. The home page will display the content of _index.md
+    authorandlicense = true
     authorimgurl = "https://images.wikidexcdn.net/mwuploads/wikidex/7/71/latest/20200105064957/Wooper_EpEc.gif" #if authorandlicense set true, this one must be set too
-    
+
     relatedPosts = true
     backtotop = true
-    lazyload = true  #if set true, lazy load images on websites asynchronously — that is, after the above-the-fold content is fully loaded, or even conditionally, only when they appear in the browser's viewport. 
-    glowlogo = true # if want logo to have glowing style, set true.
+    lazyload = true  #if set true, lazy load images on websites asynchronously — that is, after the above-the-fold content is fully loaded, or even conditionally, only when they appear in the browser's viewport.
+    glowlogo = false # if want logo to have glowing style, set true.
     scrollindicator = true # if need scroll indicator on the top, set true
     allliststyle = false  # list post with sortable all list style. If false then gridstyle or simple style
     gridstyle = true  # list post with grid style. If false then simple list
     readingtime = true  #display reading time
     firstpic = true  # display first picture as thumbnail if no thumbnail set. For gridstyle only
-    socialshare = true
+    socialshare = false
     socialicon = true
     googletranslate = false
     searchfunction = true #If true, it will only display search button but real search function is not included in example site because it need server-side app. To see the demo please visit https://jesselau.com
@@ -75,4 +75,3 @@ contentDir = "content/english"
     e-github = "https://github.com/johndoe"
     f-youtube = "https://www.youtube.com/channel/12345678"
     g-linkedin = "https://www.linkedin.com/johndoe"
-    
