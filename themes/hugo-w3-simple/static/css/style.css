@@ -4,7 +4,7 @@ body
   /*font-family: "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, "Lucida Grande", "Luxi Sans", Arial, sans-serif;*/
   font-family: "Segoe UI",Arial,sans-serif;
   background-image: url('https://raw.githubusercontent.com/ecypher/ecypher.github.io/master/images/Color_Drop_Space.png');
-  background-repeat: no-repeat;
+  background-repeat: repeat-y;
   background-attachment: fixed;
   background-size: 100% auto;
 }
