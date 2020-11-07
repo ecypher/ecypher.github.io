@@ -6,8 +6,8 @@ date: "2018-11-09T07:26:15+13:00"
 draft: false
 tags:
 - hugo
-thumbnail: https://raw.githubusercontent.com/ecypher/ecypher.github.io/master/images/Color_Drop_Dream.png
-title: Hugo W3 Simple Theme Shortcodes Demo
+thumbnail: https://raw.githubusercontent.com/ecypher/ecypher.github.io/master/images/Dunkin_Resized.png
+title: Dunkin' Donuts - <br> Exploratory Data Analysis
 type: post
 url: /w3-simple-shortcodes-demo/
 w3codecolor: true

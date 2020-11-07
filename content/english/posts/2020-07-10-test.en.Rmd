@@ -7,6 +7,7 @@ categories:
   - Exploratory Data Analyst
 tags:
   - hugo
+thumbnail: https://raw.githubusercontent.com/ecypher/ecypher.github.io/master/images/Dunkin_Resized.png
 lastmod: '2020-07-10T13:49:49-04:00'
 type: post
 w3codecolor: no
@@ -16,12 +17,11 @@ w3codecolor: no
 
 This page exists purely for testing purposes. I'm typing in pure nonsense right now because I really, really want to increase the total word length for this article.This page exists purely for testing purposes. I'm typing in pure nonsense right now because I really, really want to increase the total word length for this article. This page exists purely for testing purposes. I'm typing in pure nonsense right now because I really, really want to increase the total word length for this article.
 
-<center>![](https://www.qsrmagazine.com/sites/default/files/styles/story_page/public/news-image/why-dunkin-donuts-still-winning-breakfast-customers.jpg)</center>
 
 ## Dendo Test
 
 ```{r  out.width = "30%", echo = FALSE}
-knitr::include_graphics("https://raw.githubusercontent.com/ecypher/ecypher.github.io/master/images/Dunkin_Resized.png") 
+knitr::include_graphics("https://raw.githubusercontent.com/ecypher/ecypher.github.io/master/images/Dunkin_Dendo_D3.png") 
 ```
 
 
