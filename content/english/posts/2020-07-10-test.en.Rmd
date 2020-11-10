@@ -32,11 +32,11 @@ knitr::include_graphics("https://raw.githubusercontent.com/ecypher/ecypher.githu
 
 ## R Shiny Marker Map
 
-<iframe src=" https://data-antics.shinyapps.io/DunkinMapApp/" width="100%" frameborder="no" scrolling="no" style="width: 100%; height: 1000px;"></iframe>
+<iframe src=" https://data-antics.shinyapps.io/DunkinMapApp/" width="100%" frameborder="no" scrolling="no" style="width: 100%; height: 500px;"></iframe>
 
 ## R Shiny Leaflet Choropleth Map
 
-<iframe src = "https://data-antics.shinyapps.io/Dunkin_Choropleth/" width="100%" frameborder="no" scrolling="no" style="width: 100%; height: 1000px;"></iframe>
+<iframe src = "https://data-antics.shinyapps.io/Dunkin_Choropleth/" width="100%" frameborder="no" scrolling="no" style="width: 100%; height: 600px;"></iframe>
 
 ## Another Section
 
