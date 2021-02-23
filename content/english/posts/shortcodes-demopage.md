@@ -7,7 +7,7 @@ draft: false
 tags:
 - hugo
 thumbnail: https://raw.githubusercontent.com/ecypher/ecypher.github.io/master/images/Dunkin_Resized.png
-title: Dunkin' Donuts - <br> Exploratory Data Analysis
+title: Shortcodes Review
 type: post
 url: /w3-simple-shortcodes-demo/
 w3codecolor: true
