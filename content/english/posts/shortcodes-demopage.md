@@ -240,4 +240,3 @@ Or you can set px to width
 {{< /quote >}}   
 
 ## Test first picture without thumbnail set
-
