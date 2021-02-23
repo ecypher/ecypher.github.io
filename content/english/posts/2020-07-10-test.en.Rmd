@@ -10,16 +10,43 @@ type: post
 w3codecolor: no
 ---
 
+
+
+
 ```{r packages, echo = FALSE, message = FALSE}
 #library(dplyr)
 ```
 
 Hello there!
 <br>
+Greetings!
 
-```{r}
+
+
+<h2>Collapsibles</h2>
+
+<p>A Collapsible:</p>
+<button type="button" class="collapsible">Open Collapsible</button>
+<div class="content">
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+</div>
+
+<br>
+<br>
+<br>
+
+
+<button type="button" class="collapsible">Code</button>
+<div class="content">
+
+```{r, echo = FALSE}
 # General Kenobi
+print("You're a bold one!")
+
+print("Another fina addition to my collection!")
 ```
+
+</div>
 
 <br>
 ```{r, eval = FALSE, echo = TRUE}
