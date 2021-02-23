@@ -1,23 +1,119 @@
 ---
-title: TEST
-author: Evan Cypher
-date: '2020-07-10'
-slug: test
-categories:
-  - Exploratory Data Analyst
-tags:
-  - hugo
-thumbnail: https://raw.githubusercontent.com/ecypher/ecypher.github.io/master/images/Dunkin_Resized.png
+title: "America Runs on Data - Dunkin' EDA Project"
+author: "Evan Cypher"
+date: '2021-01-29'
+output: html_document
 lastmod: '2020-07-10T13:49:49-04:00'
+slug: test
+thumbnail: https://raw.githubusercontent.com/ecypher/ecypher.github.io/master/images/Dunkin_Resized.png
 type: post
 w3codecolor: no
 ---
 
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
 
 
-<div id="testing" class="section level1">
-<h1>Testing</h1>
+<p>Hello there!
+<br></p>
+<pre class="r"><code># General Kenobi</code></pre>
+<p><br></p>
+<pre class="r"><code># Required Packages
+library(httr)
+library(jsonlite)
+library(rlist)
+library(dplyr)
+library(openintro) # Convert Abbr to State Names
+library(micromapST)
+
+# Original URL
+&quot;https://www.mapquestapi.com/search/v2/radius?callback=jQuery34104664634028664918_1592271610628&amp;key=Gmjtd%7Clu6t2luan5%252C72%253Do5-larsq&amp;origin=22033&amp;units=m&amp;maxMatches=100&amp;radius=100&amp;hostedData=mqap.33454_DunkinDonuts&amp;ambiguities=ignore&amp;_=1592271610632&quot;
+
+# Bounding Box Coordinates that capture the entire
+# United States (including Alaska and Hawaii)
+bb_set &lt;- c(&quot;24.00,-85.00,49.00,-125.00&quot;,
+            &quot;24.00,-85.00,49.50,-80.00&quot;,
+            &quot;24.00,-80.00,49.50,-76.25&quot;,
+            &quot;24.00,-76.25,49.50,-73.00&quot;,
+            &quot;24.00,-73.00,49.50,-69.50&quot;,
+            &quot;24.00,-69.50,49.50,-66.00&quot;,
+            &quot;50.70,-169.30,71.70,-140.00&quot;,
+            &quot;15.00,-179.00,29.00,-154.00&quot;)
+
+# Create empty dataframe to be populated by &quot;for loop&quot;
+Dunkin_DT &lt;- data_frame()
+
+##----------------------------------------------------------------##
+#  Loop connects to MapQuest API,                                 ##
+#  gets JSON containg data on Dunkin&#39; stores in the bounding box, ##
+#  and selects relevant variables (columns)                       ##
+##----------------------------------------------------------------## 
+
+for (bb in bb_set){
+    
+# List of Key-Value pairs for Query Params
+query_params &lt;- list(key = &quot;38aDNOGAHfyHqf9A7AtARNZuXbjGYGI5&quot;,
+                     boundingBox = bb,
+                     units = &quot;m&quot;,
+                     maxMatches = &quot;4000&quot;, # Limit for Parameter is 4000
+                     hostedData = &quot;mqap.33454_DunkinDonuts&quot;,
+                     outFormat = &quot;json&quot;,
+                     ambiguities = &quot;ignore&quot;)
+
+# GET request utilizing Map Quest API
+get_result &lt;- GET(url = &quot;https://www.mapquestapi.com/search/v2/rectangle?&quot;,
+                  query = query_params,
+                  config = user_agent(&quot;contact.data.antics@gmail.com - data is being collected for educational purposes&quot;))
+
+# Verify that contents are JSON
+http_type(get_result)
+
+# Transform JSON into R Dataframe
+pageview &lt;- fromJSON(content(get_result, as = &quot;text&quot;),
+                         simplifyDataFrame = TRUE)$searchResults$fields
+
+# Select only the variables (columns) that might interest me
+select_cols &lt;- pageview %&gt;% 
+                select(recordid, address, address2, city,
+                       state, postal, county, country,
+                       phonenumber, lat, lng, sun_hours, mon_hours,
+                       tue_hours, wed_hours, thu_hours, fri_hours,
+                       sat_hours, sitetype, pos_type, co_brander_cd,
+                       operation_status_cd, dma_cd, close_reason_cd,
+                       otg_menu_opt, combostore, beverageonly,
+                       curbside, drivein, wireless, mobile,
+                       mobile_bypass_lane, dunkincardenabled,
+                       loyalty, adv_ord, high_vol_brewer,
+                       next_gen_store, catering_flag, walkin_flag,
+                       kosher, dt_auto_fire, turbooven, k_cup,
+                       almond, tender_agnostic_enabled)
+
+# Populate Observations from current bounding box
+Dunkin_DT &lt;- rbind(Dunkin_DT, select_cols)
+
+}
+
+# Eliminate Duplicate rows in cases where bounding boxes overlap
+Dunkin_DT_No_Dups &lt;- Dunkin_DT %&gt;% 
+                        distinct(recordid, .keep_all = TRUE)
+
+Ranking &lt;- Dunkin_DT_No_Dups %&gt;% 
+            group_by(state) %&gt;% 
+            count() %&gt;% 
+            arrange(desc(n))
+
+# Date Saved: 2020-06-26
+saveRDS(Dunkin_DT_No_Dups, file = &quot;Dunkin_Donuts.rds&quot;)</code></pre>
+<div id="introductions" class="section level2">
+<h2>Introductions</h2>
 <p>This page exists purely for testing purposes. I’m typing in pure nonsense right now because I really, really want to increase the total word length for this article.This page exists purely for testing purposes. I’m typing in pure nonsense right now because I really, really want to increase the total word length for this article. This page exists purely for testing purposes. I’m typing in pure nonsense right now because I really, really want to increase the total word length for this article.</p>
+<div id="tldr" class="section level3">
+<h3>TL;DR</h3>
+</div>
+<div id="collecting-data" class="section level3">
+<h3>Collecting Data</h3>
+<p>Inspired by an article titled <a href = "https://www.isaacslavitt.com/posts/dunkin-donuts-data-analysis/" target = "_blank">“Analyzing Dunkin’ Donuts’ business with scraped data”</a> by Isaac Slavitt (Jan 8, 2014).</p>
+</div>
+</div>
 <div id="dendo-test" class="section level2">
 <h2>Dendo Test</h2>
 <p><img src="https://raw.githubusercontent.com/ecypher/ecypher.github.io/master/images/Dunkin_Dendo_D3.png" width="30%" /></p>
@@ -41,5 +137,4 @@ w3codecolor: no
 <div id="another-section" class="section level2">
 <h2>Another Section</h2>
 <p>I love Dunkin’ Donuts</p>
-</div>
 </div>

@@ -1,22 +1,127 @@
 ---
-title: TEST
-author: Evan Cypher
-date: '2020-07-10'
-slug: test
-categories:
-  - Exploratory Data Analyst
-tags:
-  - hugo
-thumbnail: https://raw.githubusercontent.com/ecypher/ecypher.github.io/master/images/Dunkin_Resized.png
+title: "America Runs on Data - Dunkin' EDA Project"
+author: "Evan Cypher"
+date: '2021-01-29'
+output: html_document
 lastmod: '2020-07-10T13:49:49-04:00'
+slug: test
+thumbnail: https://raw.githubusercontent.com/ecypher/ecypher.github.io/master/images/Dunkin_Resized.png
 type: post
 w3codecolor: no
 ---
 
-# Testing
+```{r packages, echo = FALSE, message = FALSE}
+#library(dplyr)
+```
+
+Hello there!
+<br>
+
+```{r}
+# General Kenobi
+```
+
+<br>
+```{r, eval = FALSE, echo = TRUE}
+# Required Packages
+library(httr)
+library(jsonlite)
+library(rlist)
+library(dplyr)
+library(openintro) # Convert Abbr to State Names
+library(micromapST)
+
+# Original URL
+"https://www.mapquestapi.com/search/v2/radius?callback=jQuery34104664634028664918_1592271610628&key=Gmjtd%7Clu6t2luan5%252C72%253Do5-larsq&origin=22033&units=m&maxMatches=100&radius=100&hostedData=mqap.33454_DunkinDonuts&ambiguities=ignore&_=1592271610632"
+
+# Bounding Box Coordinates that capture the entire
+# United States (including Alaska and Hawaii)
+bb_set <- c("24.00,-85.00,49.00,-125.00",
+            "24.00,-85.00,49.50,-80.00",
+            "24.00,-80.00,49.50,-76.25",
+            "24.00,-76.25,49.50,-73.00",
+            "24.00,-73.00,49.50,-69.50",
+            "24.00,-69.50,49.50,-66.00",
+            "50.70,-169.30,71.70,-140.00",
+            "15.00,-179.00,29.00,-154.00")
+
+# Create empty dataframe to be populated by "for loop"
+Dunkin_DT <- data_frame()
+
+##----------------------------------------------------------------##
+#  Loop connects to MapQuest API,                                 ##
+#  gets JSON containg data on Dunkin' stores in the bounding box, ##
+#  and selects relevant variables (columns)                       ##
+##----------------------------------------------------------------## 
+
+for (bb in bb_set){
+    
+# List of Key-Value pairs for Query Params
+query_params <- list(key = "38aDNOGAHfyHqf9A7AtARNZuXbjGYGI5",
+                     boundingBox = bb,
+                     units = "m",
+                     maxMatches = "4000", # Limit for Parameter is 4000
+                     hostedData = "mqap.33454_DunkinDonuts",
+                     outFormat = "json",
+                     ambiguities = "ignore")
+
+# GET request utilizing Map Quest API
+get_result <- GET(url = "https://www.mapquestapi.com/search/v2/rectangle?",
+                  query = query_params,
+                  config = user_agent("contact.data.antics@gmail.com - data is being collected for educational purposes"))
+
+# Verify that contents are JSON
+http_type(get_result)
+
+# Transform JSON into R Dataframe
+pageview <- fromJSON(content(get_result, as = "text"),
+                         simplifyDataFrame = TRUE)$searchResults$fields
+
+# Select only the variables (columns) that might interest me
+select_cols <- pageview %>% 
+                select(recordid, address, address2, city,
+                       state, postal, county, country,
+                       phonenumber, lat, lng, sun_hours, mon_hours,
+                       tue_hours, wed_hours, thu_hours, fri_hours,
+                       sat_hours, sitetype, pos_type, co_brander_cd,
+                       operation_status_cd, dma_cd, close_reason_cd,
+                       otg_menu_opt, combostore, beverageonly,
+                       curbside, drivein, wireless, mobile,
+                       mobile_bypass_lane, dunkincardenabled,
+                       loyalty, adv_ord, high_vol_brewer,
+                       next_gen_store, catering_flag, walkin_flag,
+                       kosher, dt_auto_fire, turbooven, k_cup,
+                       almond, tender_agnostic_enabled)
+
+# Populate Observations from current bounding box
+Dunkin_DT <- rbind(Dunkin_DT, select_cols)
+
+}
+
+# Eliminate Duplicate rows in cases where bounding boxes overlap
+Dunkin_DT_No_Dups <- Dunkin_DT %>% 
+                        distinct(recordid, .keep_all = TRUE)
+
+Ranking <- Dunkin_DT_No_Dups %>% 
+            group_by(state) %>% 
+            count() %>% 
+            arrange(desc(n))
+
+# Date Saved: 2020-06-26
+saveRDS(Dunkin_DT_No_Dups, file = "Dunkin_Donuts.rds")
+
+
+```
+
+## Introductions
 
 This page exists purely for testing purposes. I'm typing in pure nonsense right now because I really, really want to increase the total word length for this article.This page exists purely for testing purposes. I'm typing in pure nonsense right now because I really, really want to increase the total word length for this article. This page exists purely for testing purposes. I'm typing in pure nonsense right now because I really, really want to increase the total word length for this article.
 
+### TL;DR
+
+### Collecting Data
+
+Inspired by an article titled <a href = "https://www.isaacslavitt.com/posts/dunkin-donuts-data-analysis/" target = "_blank">"Analyzing Dunkin' Donuts' business with scraped data"</a> by Isaac Slavitt (Jan 8, 2014).
 
 ## Dendo Test
 
