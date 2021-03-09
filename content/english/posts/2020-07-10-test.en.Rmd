@@ -17,38 +17,11 @@ w3codecolor: no
 #library(dplyr)
 ```
 
-Hello there!
 <br>
-Greetings!
-
-
-
-<h2>Collapsibles</h2>
-
-<p>A Collapsible:</p>
-<button type="button" class="collapsible">Open Collapsible</button>
-<div class="content">
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-</div>
-
-<br>
-<br>
-<br>
-
 
 <button type="button" class="collapsible">Code</button>
 <div class="content">
 
-```{r, echo = FALSE}
-# General Kenobi
-print("You're a bold one!")
-
-print("Another fina addition to my collection!")
-```
-
-</div>
-
-<br>
 ```{r, eval = FALSE, echo = TRUE}
 # Required Packages
 library(httr)
@@ -139,6 +112,8 @@ saveRDS(Dunkin_DT_No_Dups, file = "Dunkin_Donuts.rds")
 
 
 ```
+
+</div>
 
 ## Introductions
 
