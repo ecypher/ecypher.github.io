@@ -13,18 +13,33 @@ w3codecolor: no
 <script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
 
 
-<p><br></p>
+<div id="overview" class="section level3">
+<h3>Overview</h3>
+<p>I worked at Dunkin’ Donuts for nearly five years - from my first job in high school at age 17 to graduating college at age 22. Dunkin’ provided my first glimpse at the working world, introduced me to great friends, helped pay my college tuition, and fueled an unyielding caffeine addiction.</p>
+<p>Even after leaving Dunkin’ in pursuits of becoming a data scientist, I’m still a loyal customer and love keeping tabs on what’s new with the brand.
+So for my first blog post, I want to explore what data-driven insights might be gathered about Dunkin’ using only publicly available data (i.e. web scraping, API’s, and financial documentation).</p>
+</div>
+<div id="how-do-i-find-my-dunkin-data" class="section level3">
+<h3>How do I find my Dunkin’ Data?</h3>
+<p>Dunkin’ Donuts has a Mobile App</a> for on-the-go ordering that lists all available stores in a user’s area based on zip code. My hope was that I might be able to connect to the web API underpinning this app and collect data on store locations in the United States.</p>
+<p>Fortunately this was the case and I wasn’t even the first person to try this out! I came across a blog post titled <a href = "https://www.isaacslavitt.com/posts/dunkin-donuts-data-analysis/" target = "_blank">“Analyzing Dunkin’ Donuts’ business with scraped data”</a> by Isaac Slavitt (Jan 8, 2014). Seven years ago, Issac had essentially the same goal as mine. He collected data from the MAPQuest API that underpins Dunkin’s store locator, explored the data with Python, and visualized some interesting results.</p>
+<p>I’m going to mirror Issac’s approach, but my post utilizes the R programming language, asks several different questions, and has the luxury of seeing how things have changed in terms of Dunkin’s data reporting since 2014.</p>
+</div>
+<div id="connecting-to-the-mapquest-api" class="section level3">
+<h3>Connecting to the MapQuest API</h3>
+<p>The <a href = "https://developer.mapquest.com/documentation/search-api/v2/" target = "_blank">MapQuest API</a> provides up to 4000 records of location data and auxiliary information in a single GET request. Data can be in either JSON or XML format based on the “outputFormat” parameter.</p>
+<p>All U.S. Dunkin’ store records were combined into a single dataframe by looping a series of eight GET requests together based on different bounding boxes. Each bounding box was optimized to corresponded with roughly 4000 records to complete the dataset with the fewest number of iterations. The httr, jsonlite, and dplyr packages were all used in the data wrangling process and can be viewed by clicking on the “Code” button or visiting my GitHub repo.</p>
 <button type="button" class="collapsible">
 Code
 </button>
 <div class="content">
 <pre class="r"><code># Required Packages
-library(httr)
-library(jsonlite)
-library(rlist)
-library(dplyr)
-library(openintro) # Convert Abbr to State Names
-library(micromapST)
+library(httr)       # Used to write GET requests
+library(jsonlite)   # Used to manipulate JSON data
+library(rlist)      # A Toolbox for Non-Tabular Data Manipulation
+library(dplyr)      # Dataframe manipulation package from tidyvesre
+library(openintro)  # Convert Abbr to State Names
+library(micromapST) # Used to create linked micromaps
 
 # Original URL
 &quot;https://www.mapquestapi.com/search/v2/radius?callback=jQuery34104664634028664918_1592271610628&amp;key=Gmjtd%7Clu6t2luan5%252C72%253Do5-larsq&amp;origin=22033&amp;units=m&amp;maxMatches=100&amp;radius=100&amp;hostedData=mqap.33454_DunkinDonuts&amp;ambiguities=ignore&amp;_=1592271610632&quot;
@@ -43,11 +58,11 @@ bb_set &lt;- c(&quot;24.00,-85.00,49.00,-125.00&quot;,
 # Create empty dataframe to be populated by &quot;for loop&quot;
 Dunkin_DT &lt;- data_frame()
 
-##----------------------------------------------------------------##
-#  Loop connects to MapQuest API,                                 ##
-#  gets JSON containg data on Dunkin&#39; stores in the bounding box, ##
-#  and selects relevant variables (columns)                       ##
-##----------------------------------------------------------------## 
+##-------------------------------------------------------------------##
+##  Loop connects to MapQuest API,                                   ##
+##  gets JSON containing data on Dunkin&#39; stores in the bounding box, ##
+##  and selects relevant variables (columns)                         ##
+##-------------------------------------------------------------------## 
 
 for (bb in bb_set){
     
@@ -63,7 +78,7 @@ query_params &lt;- list(key = &quot;38aDNOGAHfyHqf9A7AtARNZuXbjGYGI5&quot;,
 # GET request utilizing Map Quest API
 get_result &lt;- GET(url = &quot;https://www.mapquestapi.com/search/v2/rectangle?&quot;,
                   query = query_params,
-                  config = user_agent(&quot;contact.data.antics@gmail.com - data is being collected for educational purposes&quot;))
+                  config = user_agent(&quot;contact.data.antics@gmail.com - data is being collected for non-commercial uses ONLY&quot;))
 
 # Verify that contents are JSON
 http_type(get_result)
@@ -93,10 +108,11 @@ Dunkin_DT &lt;- rbind(Dunkin_DT, select_cols)
 
 }
 
-# Eliminate Duplicate rows in cases where bounding boxes overlap
+# Eliminate Duplicate rows in cases where bounding boxes slightly overlap
 Dunkin_DT_No_Dups &lt;- Dunkin_DT %&gt;% 
                         distinct(recordid, .keep_all = TRUE)
 
+# Quickly Check State Rankings
 Ranking &lt;- Dunkin_DT_No_Dups %&gt;% 
             group_by(state) %&gt;% 
             count() %&gt;% 
@@ -105,38 +121,64 @@ Ranking &lt;- Dunkin_DT_No_Dups %&gt;%
 # Date Saved: 2020-06-26
 saveRDS(Dunkin_DT_No_Dups, file = &quot;Dunkin_Donuts.rds&quot;)</code></pre>
 </div>
-<div id="introductions" class="section level2">
-<h2>Introductions</h2>
+<p><br></p>
+</div>
+<div id="what-does-the-data-look-like" class="section level3">
+<h3>What does the data look like?</h3>
+<p>At first glimpse, we can see that there are 9,238 Dunkin’ stores and each record has 45 fun-filled variables to explore. Every variable has a class of “character” except for <i><em>recordid</em></i> which is “integer” and the coordinates <i><em>lat</em></i> and <i><em>lng</em></i> are both “double”.</p>
+<p>Columns 2 through 11 each contain information with varying levels of geographic granularity (ex. <i><em>address</em></i>, <i><em>city</em></i>, <i><em>state</em></i>, <i><em>postal</em></i>, <i><em>county</em></i>, etc.)</p>
+<pre class="r"><code># Look at Data Structure with glimpse()
+# glimpse(Dunkin_DT)</code></pre>
+</div>
+<div id="data-exploration" class="section level3">
+<h3>Data Exploration</h3>
+<ul>
+<li>Check for null / missing values</li>
+<li>Show dimensions dim()</li>
+<li>List Different Variables</li>
+<li>Talking about some of the more interesting variables</li>
+<li>Boxplots / Scatter Plots / Contingency Tables / Histograms</li>
+</ul>
+</div>
+<div id="introductions" class="section level3">
+<h3>Introductions</h3>
 <p>This page exists purely for testing purposes. I’m typing in pure nonsense right now because I really, really want to increase the total word length for this article.This page exists purely for testing purposes. I’m typing in pure nonsense right now because I really, really want to increase the total word length for this article. This page exists purely for testing purposes. I’m typing in pure nonsense right now because I really, really want to increase the total word length for this article.</p>
+</div>
 <div id="tldr" class="section level3">
 <h3>TL;DR</h3>
 </div>
 <div id="collecting-data" class="section level3">
 <h3>Collecting Data</h3>
-<p>Inspired by an article titled <a href = "https://www.isaacslavitt.com/posts/dunkin-donuts-data-analysis/" target = "_blank">“Analyzing Dunkin’ Donuts’ business with scraped data”</a> by Isaac Slavitt (Jan 8, 2014).</p>
 </div>
-</div>
-<div id="dendo-test" class="section level2">
-<h2>Dendo Test</h2>
+<div id="dendo-test" class="section level3">
+<h3>Dendo Test</h3>
 <p><img src="https://raw.githubusercontent.com/ecypher/ecypher.github.io/master/images/Dunkin_Dendo_D3.png" width="30%" /></p>
 </div>
-<div id="linked-micromap-test" class="section level2">
-<h2>Linked Micromap Test</h2>
+<div id="linked-micromap-test" class="section level3">
+<h3>Linked Micromap Test</h3>
 <center>
 <img src="https://raw.githubusercontent.com/ecypher/ecypher.github.io/master/images/Dunkin_Linked_MicromapST.png" />
 </center>
 </div>
-<div id="r-shiny-marker-map" class="section level2">
-<h2>R Shiny Marker Map</h2>
+<div id="r-shiny-marker-map" class="section level3">
+<h3>R Shiny Marker Map</h3>
 <iframe src=" https://data-antics.shinyapps.io/DunkinMapApp/" width="100%" frameborder="no" scrolling="no" style="width: 100%; height: 500px;">
 </iframe>
 </div>
-<div id="r-shiny-leaflet-choropleth-map" class="section level2">
-<h2>R Shiny Leaflet Choropleth Map</h2>
+<div id="r-shiny-leaflet-choropleth-map" class="section level3">
+<h3>R Shiny Leaflet Choropleth Map</h3>
 <iframe src="https://data-antics.shinyapps.io/Dunkin_Choropleth/" width="100%" frameborder="no" scrolling="no" style="width: 100%; height: 600px;">
 </iframe>
 </div>
-<div id="another-section" class="section level2">
-<h2>Another Section</h2>
+<div id="another-section" class="section level3">
+<h3>Another Section</h3>
 <p>I love Dunkin’ Donuts</p>
+</div>
+<div id="legality-note" class="section level2">
+<h2>Legality Note</h2>
+<p>This is a personal project made for non-commercial uses ONLY. This project will not be used to generate any promotional or monetary value for me, the creator, or the user.</p>
+<p style="font-size:12px">
+<u>Please Note:</u><br>
+I use the terms <i>Dunkin’</i>, <i> Dunkin’ Donuts</i>, and <i>Dunkin’ Brands</i> interchangeably although there are actually differences between the three. When I first worked at the franchise, the stores were called <i> Dunkin’ Donuts</i>. In September 2018, however, <a href = "https://www.delish.com/food-news/a23494352/dunkin-donuts-ceo-reasons-for-name-change/" target = "_blank">the name was shortened to just Dunkin’</a> for brand imaging. <i>Dunkin’ Brands</i> is the American restaurant holding company that runs both <i>Dunkin Donuts</i> and Baskin-Robbins. More recently in October 2020, <a href = "https://stories.inspirebrands.com/inspire-completes-acquisition-dunkin-donuts-baskin-robbins/" target = "_blank">Dunkin’ Brands was acquired by privately-owned Inspire Brands, Inc</a> for $11.3 billion.
+</p>
 </div>
