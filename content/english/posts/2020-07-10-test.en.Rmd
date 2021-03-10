@@ -134,20 +134,21 @@ saveRDS(Dunkin_DT_No_Dups, file = "Dunkin_Donuts.rds")
 
 ```{r load_query, echo = FALSE, message = FALSE}
 # Load Dunkin_Donuts.rds
-# Dunkin_DT <- readRDS(file = "")
+Dunkin_DT <- readRDS(url("https://github.com/ecypher/ecypher.github.io/raw/master/content/english/ref%20files/Dunkin_Donuts_2021.rds"))
+
 ```
 
 <br>
 
 ### What does the data look like?
 
-At first glimpse, we can see that there are 9,238 Dunkin' stores and each record has 45 fun-filled variables to explore. Every variable has a class of "character" except for <i>*recordid*</i> which is "integer" and the coordinates <i>*lat*</i> and <i>*lng*</i> are both "double". 
+At first glimpse, we can see that there are 9,238 Dunkin' stores and each record has 45 fun-filled variables to explore. Every variable has a class of "character" except for *<i>recordid</i>* which is "integer" and the coordinates *<i>lat</i>* and *<i>lng</i>* are both "double". 
 
-Columns 2 through 11 each contain information with varying levels of geographic granularity (ex. <i>*address*</i>, <i>*city*</i>, <i>*state*</i>, <i>*postal*</i>, <i>*county*</i>, etc.)
+Columns 2 through 11 each contain information with varying levels of geographic granularity (ex. *<i>address</i>*, *<i>city</i>*, *<i>state</i>*, *<i>county</i>*, etc.)
 ```{r check_dim, echo = TRUE}
 
 # Look at Data Structure with glimpse()
-# glimpse(Dunkin_DT)
+ glimpse(Dunkin_DT)
 
 ```
 
