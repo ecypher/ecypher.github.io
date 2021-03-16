@@ -22,7 +22,7 @@ So for my first blog post, I want to explore what data-driven insights might be 
 <div id="how-do-i-find-my-dunkin-data" class="section level3">
 <h3>How do I find my Dunkin’ Data?</h3>
 <p>Dunkin’ Donuts has a Mobile App</a> for on-the-go ordering that lists all available stores in a user’s area based on zip code. My hope was that I might be able to connect to the web API underpinning this app and collect data on store locations in the United States.</p>
-<p>Fortunately this was the case and I wasn’t even the first person to try this out! I came across a blog post titled <a href = "https://www.isaacslavitt.com/posts/dunkin-donuts-data-analysis/" target = "_blank">“Analyzing Dunkin’ Donuts’ business with scraped data”</a> by Isaac Slavitt (Jan 8, 2014). Seven years ago, Issac had essentially the same goal as mine. He collected data from the MAPQuest API that underpins Dunkin’s store locator, explored the data with Python, and visualized some interesting results.</p>
+<p>Fortunately, this was the case and I wasn’t even the first person to try this out! I came across a blog post titled <a href = "https://www.isaacslavitt.com/posts/dunkin-donuts-data-analysis/" target = "_blank">“Analyzing Dunkin’ Donuts’ business with scraped data”</a> by Isaac Slavitt (Jan 8, 2014). Seven years ago, Issac had essentially the same goal as mine. He collected data from the MAPQuest API that underpins Dunkin’s store locator, explored the data with Python, and visualized some interesting results.</p>
 <p>I’m going to mirror Issac’s approach, but my post utilizes the R programming language, asks several different questions, and has the luxury of seeing how things have changed in terms of Dunkin’s data reporting since 2014.</p>
 </div>
 <div id="connecting-to-the-mapquest-api" class="section level3">
@@ -126,9 +126,12 @@ saveRDS(Dunkin_DT_No_Dups, file = &quot;Dunkin_Donuts.rds&quot;)</code></pre>
 <div id="what-does-the-data-look-like" class="section level3">
 <h3>What does the data look like?</h3>
 <p>At first glimpse, we can see that there are 9,238 Dunkin’ stores and each record has 45 fun-filled variables to explore. Every variable has a class of “character” except for <em><i>recordid</i></em> which is “integer” and the coordinates <em><i>lat</i></em> and <em><i>lng</i></em> are both “double”.</p>
-<p>Columns 2 through 11 each contain information with varying levels of geographic granularity (ex. <em><i>address</i></em>, <em><i>city</i></em>, <em><i>state</i></em>, <em><i>county</i></em>, etc.)</p>
 <pre class="r"><code># Look at Data Structure with glimpse()
  glimpse(Dunkin_DT)</code></pre>
+<button type="button" class="collapsible">
+Code
+</button>
+<div class="content">
 <pre><code>## Rows: 9,238
 ## Columns: 45
 ## $ recordid                &lt;int&gt; 362622, 359977, 358464, 359681, 359456, 359...
@@ -176,6 +179,18 @@ saveRDS(Dunkin_DT_No_Dups, file = &quot;Dunkin_Donuts.rds&quot;)</code></pre>
 ## $ k_cup                   &lt;chr&gt; &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;Y&quot;, &quot;Y&quot;, &quot;Y&quot;...
 ## $ almond                  &lt;chr&gt; &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;...
 ## $ tender_agnostic_enabled &lt;chr&gt; &quot;Y&quot;, &quot;Y&quot;, &quot;Y&quot;, &quot;Y&quot;, &quot;Y&quot;, &quot;Y&quot;, &quot;Y&quot;, &quot;Y&quot;, &quot;Y&quot;...</code></pre>
+</div>
+<p>Columns 2 through 11 each contain information with varying levels of geographic granularity (ex. <em><i>address</i></em>, <em><i>city</i></em>, <em><i>state</i></em>, <em><i>county</i></em>, etc.)</p>
+<p>Columns 12 through 18 list the stores hours for each day of the week by location. Stores open all day are coded as “24HOURS”.</p>
+<p>Column 14 (<em><i>sitetype</i></em>) lists the two-character regional site designations that Dunkin’ lists in their FTC Franchise Disclosure Agreements.</p>
+<p><img src="https://raw.githubusercontent.com/ecypher/ecypher.github.io/master/images/Dunkin%20sitetype.png" width="60%" /></p>
+<p>Column 15 lists the <em><i>pos_type</i></em>. These are names of “Point of Sale” technologies (cash registers) deployed at each location.</p>
+<p>Column 16 provides any co-brand codes (<em><i>co_brander_cd</i></em>) associated with the store.</p>
+<p>Column 17 states the operation status code (<em><i>operation_status_cd</i></em>), but I cant decipher what the values mean. Apparently, 8,919 stores are code “7”, 172 stores are “3”, and another are 147 are “2”.</p>
+<p>Column 18 contains the <a href = "https://help-ooyala.brightcove.com/sites/all/libraries/dita/en/video-platform/reference/dma_codes.html" target = "_blank">Nielsen Designated Market Area (DMA) codes</a> (<em><i>dma_cd</i></em>). These are the codes provided by the Neilsen Corporation - a media marketing firm that specializes in measuring TV audience statistics. Dunkin appears to list these codes to better stratify store locations based on marketing efforts conducted in each area.</p>
+<p>Column 19 (<em><i>close_reason_cd</i></em>) probably contains short-term codes relating to store close, but it’s hard to tell because the entire column is just empty / missing data.</p>
+<p>Column 20 (<em><i>otg_menu_opt</i></em>) is somewhat interesting in that it lists whether stores use the regular menu options “RM” established by the franchise or another “EP” / “E” option. I think “EP” and “E” are identical because these records only list locations inside airports. (Ex: Midway Int’L Airport, JFK Intl Airport, Dallas Love Field Airport)</p>
+<p>Columns 21 through 45 are all binary (“Y”,“N”) variables to indicate whether each store has a certain service or amenity like K-Cups, Almond Milk, Mobile Pay, and Curbside Pick-up.</p>
 </div>
 <div id="data-exploration" class="section level3">
 <h3>Data Exploration</h3>
