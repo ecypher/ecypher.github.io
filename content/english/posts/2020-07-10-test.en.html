@@ -182,15 +182,55 @@ Code
 </div>
 <p>Columns 2 through 11 each contain information with varying levels of geographic granularity (ex. <em><i>address</i></em>, <em><i>city</i></em>, <em><i>state</i></em>, <em><i>county</i></em>, etc.)</p>
 <p>Columns 12 through 18 list the stores hours for each day of the week by location. Stores open all day are coded as “24HOURS”.</p>
-<p>Column 14 (<em><i>sitetype</i></em>) lists the two-character regional site designations that Dunkin’ lists in their FTC Franchise Disclosure Agreements.</p>
-<p><img src="https://raw.githubusercontent.com/ecypher/ecypher.github.io/master/images/Dunkin%20sitetype.png" width="60%" /></p>
+<p>Column 14 (<em><i>sitetype</i></em>) lists the two-character site designations, which can be partially decoded by analyzing similarities in records with the same site type. For instance, “DT” appears to represent stores in Amusement Parks:</p>
+<pre><code>##   recordid                  address       address2         city state
+## 1   357009     111 Raging Waters Dr                   San Dimas    CA
+## 2   358281      4800 Kennywood Blvd Kennywood Park West Mifflin    PA
+## 3   345030 100 West Hershey Park Dr   Hershey Park      Hershey    PA
+## 4   353517             822 Lake Ave Lake Compounce      Bristol    CT
+## 5   354716          850 NH Route 16      Storyland         Glen    NH</code></pre>
+<p>Apparently, there are also Dunkin’ locations inside of Home Depots. So here are the “HI” sitetypes that you can visit to purchase home repair tools and Jelly Munchkins at the same time:</p>
+<pre><code>##   recordid              address   address2      city state
+## 1   339773          575 Bank St Home Depot Waterbury    CT
+## 2   346683 2445 Springfield Ave Home Depot  Vauxhall    NJ
+## 3   339861        485 Centre St Home Depot    Quincy    MA
+## 4   339762      1149 Hingham St Home Depot  Rockland    MA</code></pre>
+<p>Dunkin’ has also found a way to infiltrate their way into the highest ranks of the U.S. government by meeting the coffee demands of those in the House of Representatives, State Department, Pentagon, and more. There is actually something weirdly democratic about this fact that I enjoy. The Dunkin’ coffee that I drink is essentially the same for everyone - whether you are U.S. Representative, Naval Officer, or a humble data analyst.</p>
+<pre><code>##   recordid                 address2       city state
+## 1   355122        Navel Air Station   Coronado    CA
+## 2   355099 House of Representatives Washington    DC
+## 3   351285      Library of Congress Washington    DC
+## 4   351132         US Dept of State Washington    DC
+## 5   337723                 Pentagon Washington    DC</code></pre>
+<p>There are a total of 27 different sitetypes, but here are a few more I feel pretty confident about:</p>
+<pre><code>##      sitetype description           
+## [1,] &quot;GC&quot;     &quot;Gas Station&quot;         
+## [2,] &quot;HE&quot;     &quot;Hess Gas Station&quot;    
+## [3,] &quot;CS/CH&quot;  &quot;Casino&quot;              
+## [4,] &quot;ET&quot;     &quot;Expo Centers&quot;        
+## [5,] &quot;HT&quot;     &quot;Hotels&quot;              
+## [6,] &quot;BI&quot;     &quot;Government Buildings&quot;
+## [7,] &quot;CU&quot;     &quot;Universities&quot;        
+## [8,] &quot;MI&quot;     &quot;Military&quot;</code></pre>
 <p>Column 15 lists the <em><i>pos_type</i></em>. These are names of “Point of Sale” technologies (cash registers) deployed at each location.</p>
 <p>Column 16 provides any co-brand codes (<em><i>co_brander_cd</i></em>) associated with the store.</p>
 <p>Column 17 states the operation status code (<em><i>operation_status_cd</i></em>), but I cant decipher what the values mean. Apparently, 8,919 stores are code “7”, 172 stores are “3”, and another are 147 are “2”.</p>
 <p>Column 18 contains the <a href = "https://help-ooyala.brightcove.com/sites/all/libraries/dita/en/video-platform/reference/dma_codes.html" target = "_blank">Nielsen Designated Market Area (DMA) codes</a> (<em><i>dma_cd</i></em>). These are the codes provided by the Neilsen Corporation - a media marketing firm that specializes in measuring TV audience statistics. Dunkin appears to list these codes to better stratify store locations based on marketing efforts conducted in each area.</p>
-<p>Column 19 (<em><i>close_reason_cd</i></em>) probably contains short-term codes relating to store close, but it’s hard to tell because the entire column is just empty / missing data.</p>
+<p>Column 19 (<em><i>close_reason_cd</i></em>) probably contains short-term codes relating to store closure, but it’s hard to tell because the entire column is just empty / missing data.</p>
 <p>Column 20 (<em><i>otg_menu_opt</i></em>) is somewhat interesting in that it lists whether stores use the regular menu options “RM” established by the franchise or another “EP” / “E” option. I think “EP” and “E” are identical because these records only list locations inside airports. (Ex: Midway Int’L Airport, JFK Intl Airport, Dallas Love Field Airport)</p>
 <p>Columns 21 through 45 are all binary (“Y”,“N”) variables to indicate whether each store has a certain service or amenity like K-Cups, Almond Milk, Mobile Pay, and Curbside Pick-up.</p>
+</div>
+<div id="an-additional-piece-of-outside-data" class="section level3">
+<h3>An Additional Piece of Outside Data</h3>
+<p>I added on an additional column designating each store’s regional district as disclosed by Dunkin’s FTC <a href = "https://www.bluemaumau.org/sites/default/files/DD_FDD%20UFOC%2003-26-10%20AMND%2011-23-10.pdf" target = "_blank">Franchise Disclosure Agreements</a>. According to Dunkin’, they have eight regional districts:</p>
+<p><img src="https://raw.githubusercontent.com/ecypher/ecypher.github.io/master/images/Dunkin%20sitetype.png" width="60%" /></p>
+</div>
+<div id="which-dunkin-donuts-are-located-clostest-to-each-other" class="section level3">
+<h3>Which Dunkin’ Donuts are located clostest to each other?</h3>
+<p>Having grown up in New Jersey, seeing a Dunkin’ Donuts on virtually every block was an expected sight. I always wondered which Dunkin’ locations were located closest to each other because I imagined they would be comically close - like having two locations literally adjacent to one another.</p>
+<p>There have been posts like this on social media that have sprung up over the years. For instance, here is a Reddit post literally showing me that what I imagined is an actual reality:</p>
+<p>But unfortunately, I can’t count situations like we see in the Reddit post. That’s because these instances only happen temporarily when usually one franchise owner is moving store locations so both Dunkin’ Donuts don’t operate simultaneous on a routine basis.</p>
+<p>To calculate which locations are closest, I’m going to construct a dissimilarity matrix (a matrix that measures each location relative to every other point) and perform agglomerative hierarchical clustering.</p>
 </div>
 <div id="data-exploration" class="section level3">
 <h3>Data Exploration</h3>
@@ -232,12 +272,8 @@ Code
 <iframe src="https://data-antics.shinyapps.io/Dunkin_Choropleth/" width="100%" frameborder="no" scrolling="no" style="width: 100%; height: 600px;">
 </iframe>
 </div>
-<div id="another-section" class="section level3">
-<h3>Another Section</h3>
-<p>I love Dunkin’ Donuts</p>
-</div>
-<div id="legality-note" class="section level2">
-<h2>Legality Note</h2>
+<div id="legality-note" class="section level3">
+<h3>Legality Note</h3>
 <p>This is a personal project made for non-commercial uses ONLY. This project will not be used to generate any promotional or monetary value for me, the creator, or the user.</p>
 <p style="font-size:12px">
 <u>Please Note:</u><br>

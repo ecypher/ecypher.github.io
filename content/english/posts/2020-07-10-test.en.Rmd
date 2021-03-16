@@ -166,11 +166,60 @@ Columns 2 through 11 each contain information with varying levels of geographic 
 
 Columns 12 through 18 list the stores hours for each day of the week by location. Stores open all day are coded as "24HOURS".
 
-Column 14 (*<i>sitetype</i>*) lists the two-character regional site designations that Dunkin' lists in their FTC Franchise Disclosure Agreements.
+Column 14 (*<i>sitetype</i>*) lists the two-character site designations, which can be partially decoded by analyzing similarities in records with the same site type. For instance, "DT" appears to represent stores in Amusement Parks:
+
+```{r Amusement_Park_Dunkin, eval = TRUE, echo = FALSE}
+
+# Show Dunkin with sitetype "TM"
+Dunkin_DT %>% 
+    filter(sitetype == "TM") %>% 
+    select(1:5)
+
+```
+
+Apparently, there are also Dunkin' locations inside of Home Depots. So here are the "HI" sitetypes that you can visit to purchase home repair tools and Jelly Munchkins at the same time:
+
+```{r Home_Depot_Dunkin, eval = TRUE, echo = FALSE}
+
+# Show Dunkin with sitetype "HI"
+Dunkin_DT %>% 
+    filter(sitetype == "HI") %>% 
+    select(1:5)
+
+```
+
+Dunkin' has also found a way to infiltrate their way into the highest ranks of the U.S. government by meeting the coffee demands of those in the House of Representatives, State Department, Pentagon, and more. There is actually something weirdly democratic about this fact that I enjoy. The Dunkin' coffee that I drink is essentially the same for everyone - whether you are U.S. Representative, Naval Officer, or a humble data analyst.
+
+```{r Gov_Dunkin, eval = TRUE, echo = FALSE}
+
+# Show Dunkin locations in government
+Dunkin_DT %>% 
+    filter(recordid %in% c("355099", "351285","351132",
+                           "337723","355122")) %>% 
+    select(1,3:5)
+
+```
 
 
-```{r sitetype_image, out.width = "60%", echo = FALSE}
-knitr::include_graphics("https://raw.githubusercontent.com/ecypher/ecypher.github.io/master/images/Dunkin%20sitetype.png") 
+There are a total of 27 different sitetypes, but here are a few more I feel pretty confident about:
+
+```{r show_sitetype, eval = TRUE, echo = FALSE}
+
+# List of sitetypes
+sitetype <- c("GC","HE",
+              "CS/CH","ET",
+              "HT","BI",
+              "CU","MI")
+
+# List of sitetype descriptions        
+description <- c("Gas Station","Hess Gas Station",
+                 "Casino","Expo Centers",
+                 "Hotels","Government Buildings",
+                 "Universities","Military")
+
+#Print Result
+print(cbind(sitetype,description))
+
 ```
 
 
@@ -182,7 +231,7 @@ Column 17 states the operation status code (*<i>operation_status_cd</i>*), but I
 
 Column 18 contains the <a href = "https://help-ooyala.brightcove.com/sites/all/libraries/dita/en/video-platform/reference/dma_codes.html" target = "_blank">Nielsen Designated Market Area (DMA) codes</a> (*<i>dma_cd</i>*). These are the codes provided by the Neilsen Corporation - a  media marketing firm that specializes in measuring TV audience statistics. Dunkin appears to list these codes to better stratify store locations based on marketing efforts conducted in each area.
 
-Column 19 (*<i>close_reason_cd</i>*) probably contains short-term codes relating to store close, but it's hard to tell because the entire column is just empty / missing data.
+Column 19 (*<i>close_reason_cd</i>*) probably contains short-term codes relating to store closure, but it's hard to tell because the entire column is just empty / missing data.
 
 Column 20 (*<i>otg_menu_opt</i>*) is somewhat interesting in that it lists whether stores use the regular menu options "RM" established by the franchise or another "EP" / "E" option. I think "EP" and "E" are identical because these records only list locations inside airports. (Ex: Midway Int'L Airport, JFK Intl Airport, Dallas Love Field Airport)
 
@@ -190,6 +239,99 @@ Columns 21 through 45 are all binary ("Y","N") variables to indicate whether eac
 
 
 
+
+### An Additional Piece of Outside Data
+
+I added on an additional column designating each store's regional district as disclosed by Dunkin's FTC <a href = "https://www.bluemaumau.org/sites/default/files/DD_FDD%20UFOC%2003-26-10%20AMND%2011-23-10.pdf" target = "_blank">Franchise Disclosure Agreements</a>. According to Dunkin', they have eight regional districts:
+
+```{r region_image, out.width = "60%", echo = FALSE}
+knitr::include_graphics("https://raw.githubusercontent.com/ecypher/ecypher.github.io/master/images/Dunkin%20sitetype.png") 
+```
+
+### Which Dunkin' Donuts are located clostest to each other?
+
+Having grown up in New Jersey, seeing a Dunkin' Donuts on virtually every block was an expected sight. I always wondered which Dunkin' locations were located closest to each other because I imagined they would be comically close - like having two locations literally adjacent to one another. 
+
+There have been posts like this on social media that have sprung up over the years. For instance, here is a Reddit post literally showing me that what I imagined is an actual reality:
+
+But unfortunately, I can't count situations like we see in the Reddit post. That's because these instances only happen temporarily when usually one franchise owner is moving store locations so both Dunkin' Donuts don't operate simultaneous on a routine basis.
+
+To calculate which locations are closest, I'm going to construct a dissimilarity matrix (a matrix that measures each location relative to every other point) and perform agglomerative hierarchical clustering.
+
+```{r Calc_Regions, eval = TRUE, echo = FALSE}
+
+# Show Dunkin locations in government
+Add_Regions <- Dunkin_DT %>% 
+                mutate(FTC_Region = recode(state,
+                            # Northeast
+                                CT = "Northeast",
+                                ME = "Northeast",
+                                MA = "Northeast",
+                                NH = "Northeast",
+                                RI = "Northeast",
+                                VT = "Northeast",
+                            
+                            # Southeast
+                                FL = "Southeast",
+                                GA = "Southeast",
+                                MD = "Southeast",
+                                VA = "Southeast",
+                                DC = "Southeast",
+                                NC = "Southeast",
+                                SC = "Southeast",
+                            
+                            # Mid-West
+                                IL = "Mid-West",
+                                IN = "Mid-West",
+                                IA = "Mid-West",
+                                KS = "Mid-West",
+                                MI = "Mid-West",
+                                MN = "Mid-West",
+                                MO = "Mid-West",
+                                NE = "Mid-West",
+                                ND = "Mid-West",
+                                SD = "Mid-West",
+                                WI = "Mid-West",
+                            
+                            # Northwest
+                                AK = "Northwest",
+                                ID = "Northwest", 
+                                MT = "Northwest",
+                                OR = "Northwest", 
+                                WA = "Northwest",
+                                WY = "Northwest",
+                            
+                            # Mid-Atlantic
+                                DE = "Mid-Atlantic",
+                                NJ = "Mid-Atlantic", 
+                                NY = "Mid-Atlantic",
+                                PA = "Mid-Atlantic",
+                            
+                            # Central
+                                AL = "Central",
+                                KY = "Central", 
+                                MS = "Central",
+                                OH = "Central", 
+                                TN = "Central",
+                                WV = "Central",
+                            
+                            # Southwest
+                                AR = "Southwest",
+                                AZ = "Southwest",
+                                CA = "Southwest",
+                                CO = "Southwest",
+                                HI = "Southwest",
+                                LA = "Southwest",
+                                NV = "Southwest",
+                                NM = "Southwest",
+                                OK = "Southwest",
+                                TX = "Southwest",
+                                UT = "Southwest",
+                            
+                               .default = NULL))
+    
+
+```
 
 
 
@@ -232,11 +374,8 @@ knitr::include_graphics("https://raw.githubusercontent.com/ecypher/ecypher.githu
 
 <iframe src = "https://data-antics.shinyapps.io/Dunkin_Choropleth/" width="100%" frameborder="no" scrolling="no" style="width: 100%; height: 600px;"></iframe>
 
-### Another Section
 
-I love Dunkin' Donuts
-
-## Legality Note
+### Legality Note
 
 This is a personal project made for non-commercial uses ONLY. This project will not be used to generate any promotional or monetary value for me, the creator, or the user.
 
