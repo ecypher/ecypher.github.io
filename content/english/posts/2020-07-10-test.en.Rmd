@@ -115,18 +115,31 @@ Dunkin_DT <- rbind(Dunkin_DT, select_cols)
 
 }
 
-# Eliminate Duplicate rows in cases where bounding boxes slightly overlap
-Dunkin_DT_No_Dups <- Dunkin_DT %>% 
-                        distinct(recordid, .keep_all = TRUE)
+# Remove Records with identical recordid, full_address, or coordinates
+Dunkin_DT_No_Dups  <- Dunkin_DT %>% 
+        
+    # Eliminate Duplicate recordid
+    distinct(recordid, .keep_all = TRUE) %>% 
+    
+    # Create Column with Full Address
+    mutate(full_address = paste(address,", ",city,", ",state,
+                                " ",postal, sep = "")) %>% 
+    
+    # Eliminate Duplicate Full Address
+    distinct(full_address, .keep_all = TRUE) %>% 
+    
+    # Create Index to identify Identical Coordinates
+    mutate(label = group_indices(.,lng,lat)) %>% 
+    
+    # Eliminate Duplicate Identical Coordinates
+    distinct(label, .keep_all = TRUE) %>% 
+    
+    # Reformat Columns
+    select(recordid,full_address,everything(), -label)
 
-# Quickly Check State Rankings
-Ranking <- Dunkin_DT_No_Dups %>% 
-            group_by(state) %>% 
-            count() %>% 
-            arrange(desc(n))
 
-# Date Saved: 2020-06-26
-saveRDS(Dunkin_DT_No_Dups, file = "Dunkin_Donuts.rds")
+# Date Saved: 2021-03-18
+saveRDS(Dunkin_DT_No_Dups, file = "Dunkin_Donuts_2021.rds")
 
 ```
 
@@ -252,11 +265,29 @@ knitr::include_graphics("https://raw.githubusercontent.com/ecypher/ecypher.githu
 
 Having grown up in New Jersey, seeing a Dunkin' Donuts on virtually every block was an expected sight. I always wondered which Dunkin' locations were located closest to each other because I imagined they would be comically close - like having two locations literally adjacent to one another. 
 
-There have been posts like this on social media that have sprung up over the years. For instance, here is a Reddit post literally showing me that what I imagined is an actual reality:
+There have been posts like this on social media that have sprung up over the years. For instance, here is a <a href = "https://www.reddit.com/r/mildlyinteresting/comments/6pqbr7/these_two_dunkin_donuts_next_to_each_other_are/?utm_source=share&utm_medium=web2x&context=3" target = "_blank">Reddit post</a> literally showing me that what I imagined is an actual reality:
 
-But unfortunately, I can't count situations like we see in the Reddit post. That's because these instances only happen temporarily when usually one franchise owner is moving store locations so both Dunkin' Donuts don't operate simultaneous on a routine basis.
 
-To calculate which locations are closest, I'm going to construct a dissimilarity matrix (a matrix that measures each location relative to every other point) and perform agglomerative hierarchical clustering.
+```{r reddit_image, out.width = "40%", echo = FALSE}
+knitr::include_graphics("https://raw.githubusercontent.com/ecypher/ecypher.github.io/master/images/Dunkin_Reddit_Pic.jpg") 
+```
+
+
+Unfortunately, I can't count situations like what we see in this Reddit post. That's because (1) I don't know if both these locations are still operational in 2021 and (2) this may be a temporarily situation where one franchise owner is moving store locations so both Dunkin' Donuts don't actuall operate simultaneously.
+
+To calculate which locations are closest, I'm going to construct a dissimilarity matrix (a matrix that measures each location relative to every other point in my dataframe) and perform agglomerative hierarchical clustering.
+
+
+
+
+
+
+
+
+
+
+
+
 
 ```{r Calc_Regions, eval = TRUE, echo = FALSE}
 
