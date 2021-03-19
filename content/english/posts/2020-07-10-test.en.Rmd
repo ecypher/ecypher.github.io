@@ -273,10 +273,13 @@ knitr::include_graphics("https://raw.githubusercontent.com/ecypher/ecypher.githu
 ```
 
 
-Unfortunately, I can't count situations like what we see in this Reddit post. That's because (1) I don't know if both these locations are still operational in 2021 and (2) this may be a temporarily situation where one franchise owner is moving store locations so both Dunkin' Donuts don't actuall operate simultaneously.
+Unfortunately, I can't count situations like what we see in this Reddit post. That's because (1) I don't know if both these locations are still operational in 2021 and (2) this may be a temporarily situation where one franchise owner is moving store locations so both Dunkin' Donuts don't actually operate simultaneously.
 
 To calculate which locations are closest, I'm going to construct a dissimilarity matrix (a matrix that measures each location relative to every other point in my dataframe) and perform agglomerative hierarchical clustering.
 
+```{r three_closest, out.width = "80%", echo = FALSE}
+knitr::include_graphics("https://raw.githubusercontent.com/ecypher/ecypher.github.io/master/images/Two_Closest_Dunkin.png") 
+```
 
 
 
